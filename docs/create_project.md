@@ -8,3 +8,6 @@
 - npm i
 - npm run dev
 - npm run prod
+
+
+php artisan vendor:publish --tag=laravel-pagination
