@@ -11,3 +11,5 @@
 
 
 php artisan vendor:publish --tag=laravel-pagination
+
+composer require intervention/image

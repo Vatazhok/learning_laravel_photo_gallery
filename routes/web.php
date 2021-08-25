@@ -20,3 +20,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('/image', [App\Http\Controllers\ImageController::class, 'post']);
 Route::delete('/image/{id}', [App\Http\Controllers\ImageController::class, 'destroy']);
+Route::get('watermark-image', [App\Http\Controllers\WaterMarkController::class, 'imageWatermark']);
+Route::post('/sharingImage', [App\Http\Controllers\ImageController::class, 'sharingImage'])->name('sharingImage');;
+Route::post('/watermark', [App\Http\Controllers\ImageController::class, 'watermark'])->name('watermark');
+

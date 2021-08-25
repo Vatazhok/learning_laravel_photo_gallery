@@ -34,6 +34,40 @@ class ImageController extends Controller
         return redirect('/');
     }
 
+    public function sharingImage(Request $request)
+    {
+
+
+//        $images=[];
+        foreach ($request->checkbox as $image) {
+
+
+            $images[] = Image::where('id', $image)->get()->toArray();
+
+//            $resultImage[]=$images;
+        }
+            $resultImage=call_user_func_array('array_merge', $images);
+
+        return view('sharing_image')->with('images', $resultImage);
+    }
+
+//    public function sharing(Request $request)
+//    {
+//        $images = Image::where('user_id', Auth::id())->paginate(12);
+//        return view('welcome')->with('images', $images);
+//    }
+
+//    public function watermark(Request $request)
+//    {
+//        dd($request);
+//        return view(
+//            'pages.index',
+//            [
+//                'posts' => $posts,
+//            ]
+//        );
+//    }
+
     public function destroy($id)
     {
         $image = Image::find($id);
