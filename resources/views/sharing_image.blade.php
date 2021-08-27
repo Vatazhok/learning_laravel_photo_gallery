@@ -22,7 +22,7 @@
 {{--                                                      value="{{$image}}" form="form-1"></label>--}}
 {{--                            <input type="submit" value="" id="submit-form" class="hidden" style="display:none">--}}
 
-                            <a href="{{asset($image['image'])}}"> <img src="{{asset($image['image'])}}" class="card-img-top" alt="Broken" height="220"></a>
+                            <a href="{{route('showImage',$image['id'])}}"> <img src="{{asset($image['image'])}}" class="card-img-top" alt="Broken" height="220"></a>
 
 {{--                            <a href="{{asset($image->image)}}"> <img src="{{asset($image->image)}}" class="card-img-top" alt="Broken" height="220"></a>--}}
 
@@ -36,9 +36,7 @@
             </div>
         </div>
     </form>
-    <div class="row justify-content-center">
-        {{$images->links('vendor.pagination.bootstrap-4')}}
-    </div>
+
 
 
 

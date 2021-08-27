@@ -3,7 +3,7 @@
     <div class="container">
         <a href="/home" class="btn btn-warning">Upload</a>
         <a data-pin-do="buttonBookmark" data-pin-tall="true" href="https://www.pinterest.com/pin/create/button/"></a>
-        <label class="btn btn-dark" for="submit-form" tabindex="0">Share selected</label>
+        <label class="btn btn-dark mb-0" for="submit-form" tabindex="0">Share selected</label>
 
     </div>
     <form action="{{route('sharingImage')}}" method="post" id="form-1" >
