@@ -14,7 +14,7 @@ class ImageController extends Controller
 {
     public function index()
     {
-        $images = Image::where('user_id', Auth::id())->paginate(12);
+        $images = Image::where(config('constants.image.user_id'), Auth::id())->paginate(12);
         return view('welcome')->with('images', $images);
     }
 
@@ -39,7 +39,7 @@ class ImageController extends Controller
     public function sharingImage(Request $request)
     {
         foreach ($request->checkbox as $image) {
-            $images[] = Image::where('id', $image)->get()->toArray();
+            $images[] = Image::where(config('constants.image.id'), $image)->get()->toArray();
         }
         $resultImage = call_user_func_array('array_merge', $images);
         return view('sharing_image')->with('images', $resultImage);
@@ -47,7 +47,7 @@ class ImageController extends Controller
 
     public function showImage($id)
     {
-        $images = Image::where('id', $id)->get();
+        $images = Image::where(config('constants.image.id'), $id)->get();
         $watermarkImage = Watermark::where('image_id', $id)->get();
         return view(
             'show_image',
@@ -61,7 +61,7 @@ class ImageController extends Controller
     public function addWatermark(Request $request, $id)
     {
         $image = $request->checkbox;
-        $images = Image::where('id', $id)->first();
+        $images = Image::where(config('constants.image.id'), $id)->first();
 
         $pathImage = pathinfo($images->image)['filename'];
         $pathWatermark = pathinfo($image)['filename'];
@@ -84,8 +84,8 @@ class ImageController extends Controller
     {
         $image = Image::find($id);
         $image->delete();
-        $watermarkImage = Watermark::where('image_id', $id)->get()->toArray();
-        Watermark::where('image_id', $id)->delete();
+        $watermarkImage = Watermark::where(config('constants.watermark.image_id'), $id)->get()->toArray();
+        Watermark::where(config('constants.watermark.image_id'), $id)->delete();
         foreach ($watermarkImage as $watImg) {
             if (file_exists($watImg['image'])) {
                 File::delete($watImg['image']);
@@ -106,6 +106,7 @@ class ImageController extends Controller
         if (file_exists($image->image)) {
             File::delete($image->image);
         }
+
         Session::flash('success', 'Images deleted');
         return redirect()->back();
     }
