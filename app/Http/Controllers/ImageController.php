@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Image\ImageAddWatermarkRequest;
+use App\Http\Requests\Image\ImagePostRequest;
+use App\Http\Requests\Image\ImageSharingImageRequest;
 use App\Models\Image;
 use App\Models\Watermark;
 use Illuminate\Http\Request;
@@ -18,11 +21,9 @@ class ImageController extends Controller
         return view('welcome')->with('images', $images);
     }
 
-    public function post(Request $request)
+    public function post(ImagePostRequest $request)
     {
-        $this->validate($request, [
-            'image' => 'required'
-        ]);
+
         $images = $request->image;
         foreach ($images as $image) {
             $image_new_name = time() . $image->getClientOriginalName();
@@ -32,11 +33,10 @@ class ImageController extends Controller
             $post->image = 'images/' . $image_new_name;
             $post->save();
         }
-        Session::flash('success', 'Images uploaded');
-        return redirect('/');
+        return redirect('/')->withSuccess(__('imageSuccess.uploaded'));
     }
 
-    public function sharingImage(Request $request)
+    public function sharingImage(ImageSharingImageRequest $request)
     {
         foreach ($request->checkbox as $image) {
             $images[] = Image::where(config('constants.image.id'), $image)->get()->toArray();
@@ -58,7 +58,7 @@ class ImageController extends Controller
         );
     }
 
-    public function addWatermark(Request $request, $id)
+    public function addWatermark(ImageAddWatermarkRequest $request, $id)
     {
         $image = $request->checkbox;
         $images = Image::where(config('constants.image.id'), $id)->first();
@@ -77,7 +77,7 @@ class ImageController extends Controller
         $watermark->image = $path;
         $watermark->save();
 
-        return redirect()->back();
+        return redirect()->back()->withSuccess(__('imageSuccess.addWatermark'));
     }
 
     public function destroy($id)
@@ -94,8 +94,7 @@ class ImageController extends Controller
         if (file_exists($image->image)) {
             File::delete($image->image);
         }
-        Session::flash('success', 'Images deleted');
-        return redirect('/');
+        return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
     }
 
     public function destroyWatermark($id)
@@ -107,8 +106,7 @@ class ImageController extends Controller
             File::delete($image->image);
         }
 
-        Session::flash('success', 'Images deleted');
-        return redirect()->back();
+        return redirect()->back()->withSuccess(__('imageSuccess.deleteImageWithWatermark'));
     }
 
 }
