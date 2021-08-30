@@ -89,10 +89,14 @@ class ImageController extends Controller
         foreach ($watermarkImage as $watImg) {
             if (file_exists($watImg['image'])) {
                 File::delete($watImg['image']);
+            }else {
+                return back()->withErrors(__('imageFailure.imageNotFound'));
             }
         }
         if (file_exists($image->image)) {
             File::delete($image->image);
+        }else {
+            return back()->withErrors(__('imageFailure.imageNotFound'));
         }
         return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
     }
@@ -104,6 +108,8 @@ class ImageController extends Controller
 
         if (file_exists($image->image)) {
             File::delete($image->image);
+        } else {
+            return back()->withErrors(__('imageFailure.imageNotFound'));
         }
 
         return redirect()->back()->withSuccess(__('imageSuccess.deleteImageWithWatermark'));
