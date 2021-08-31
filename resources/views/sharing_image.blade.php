@@ -16,7 +16,11 @@
                     <div class="col-xl-4 col-lg-4 col-md-6">
                         <div class="card mb-4">
                             <a href="{{route('showImage',$image['id'])}}"> <img src="{{asset($image['image'])}}"
-                                                                                class="card-img-top" alt="Broken"></a>
+                                                                                class="card-img-top" alt="Broken" title="Сlick on the photo to work with the photo"></a>
+
+                        <div class="card-body">
+                            <a href="{{route('showImage',$image['id'])}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">add watermark</a>
+                        </div>
                         </div>
                     </div>
                 @endforeach
