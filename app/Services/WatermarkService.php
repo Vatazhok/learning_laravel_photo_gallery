@@ -42,5 +42,14 @@ class WatermarkService
         $watermark->save();
     }
 
+    public function destroy($id)
+    {
+        return $this->watermarkRepository->destroy($id);
+    }
+    public function destroyOne($id)
+    {
+        return $this->watermarkRepository->destroyOne($id);
+    }
+
 
 }

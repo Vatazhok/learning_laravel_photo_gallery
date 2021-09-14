@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Image;
 use App\Repository\ImageRepositoryInterface;
+use Illuminate\Support\Facades\File;
 
 class ImageService
 {
@@ -50,6 +51,13 @@ class ImageService
         return $this->imageRepository->showImage($id);
     }
 
+    public function destroy($id)
+    {
+        $this->imageRepository->destroy($id);
+
+
+
+    }
 
 }
 

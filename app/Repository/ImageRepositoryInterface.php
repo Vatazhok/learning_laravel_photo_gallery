@@ -14,5 +14,7 @@ interface ImageRepositoryInterface
     public function whereUserIdPaginate($authId);
 
     public function showImage($id);
+    public function destroy($id);
+
 
 }

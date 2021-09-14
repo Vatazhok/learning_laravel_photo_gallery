@@ -14,3 +14,7 @@ yarn-error.log
 /.idea
 /.vscode
 
+/Vagrantfile
+/.htaccess
+/vagrant.ppk
+/.vagrant/

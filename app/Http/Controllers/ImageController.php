@@ -82,35 +82,15 @@ class ImageController extends Controller
 
     public function destroy($id)
     {
-        $image = Image::find($id);
-        $image->delete();
-        $watermarkImage = Watermark::where(config('constants.watermark.image_id'), $id)->get()->toArray();
-        Watermark::where(config('constants.watermark.image_id'), $id)->delete();
-        foreach ($watermarkImage as $watImg) {
-            if (file_exists($watImg['image'])) {
-                File::delete($watImg['image']);
-            } else {
-                return back()->withErrors(__('imageFailure.imageNotFound'));
-            }
-        }
-        if (file_exists($image->image)) {
-            File::delete($image->image);
-        } else {
-            return back()->withErrors(__('imageFailure.imageNotFound'));
-        }
+        $this->imageService->destroy($id);
+        $this->watermarkService->destroy($id);
+
         return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
     }
 
     public function destroyWatermark($id)
     {
-        $image = Watermark::find($id);
-        $image->delete();
-
-        if (file_exists($image->image)) {
-            File::delete($image->image);
-        } else {
-            return back()->withErrors(__('imageFailure.imageNotFound'));
-        }
+        $this->watermarkService->destroyOne($id);
 
         return redirect()->back()->withSuccess(__('imageSuccess.deleteImageWithWatermark'));
     }
