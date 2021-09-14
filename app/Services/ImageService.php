@@ -53,8 +53,12 @@ class ImageService
 
     public function destroy($id)
     {
-        $this->imageRepository->destroy($id);
-
+        $image = $this->imageRepository->destroy($id);
+        if (file_exists($image->image)) {
+            File::delete($image->image);
+        } else {
+            return back()->withErrors(__('imageFailure.imageNotFound'));
+        }
 
 
     }

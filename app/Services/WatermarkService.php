@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Watermark;
 use App\Repository\WatermarkRepositoryInterface;
+use Illuminate\Support\Facades\File;
 
 
 class WatermarkService
@@ -44,11 +45,26 @@ class WatermarkService
 
     public function destroy($id)
     {
-        return $this->watermarkRepository->destroy($id);
+        $watermarkImage=$this->watermarkRepository->destroy($id);
+        foreach ($watermarkImage as $watImg) {
+            if (file_exists($watImg['image'])) {
+                File::delete($watImg['image']);
+            } else {
+                return back()->withErrors(__('imageFailure.imageNotFound'));
+            }
+        }
+
+
     }
     public function destroyOne($id)
     {
-        return $this->watermarkRepository->destroyOne($id);
+        $image = $this->watermarkRepository->destroyOne($id);
+        if (file_exists($image->image)) {
+            File::delete($image->image);
+        } else {
+            return back()->withErrors(__('imageFailure.imageNotFound'));
+        }
+
     }
 
 

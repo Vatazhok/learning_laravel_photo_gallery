@@ -51,12 +51,7 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
         $image = $this->model->find($id);
         $image->delete();
 
-        // перенести в сервіс
-        if (file_exists($image->image)) {
-            File::delete($image->image);
-        } else {
-            return back()->withErrors(__('imageFailure.imageNotFound'));
-        }
+        return $image;
     }
 
 }
