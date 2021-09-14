@@ -6,25 +6,15 @@ use App\Http\Requests\Image\ImageAddWatermarkRequest;
 use App\Http\Requests\Image\ImagePostRequest;
 use App\Http\Requests\Image\ImageSharingImageRequest;
 use App\Models\Image;
-use App\Repository\ImageRepositoryInterface;
-
-//use App\Repository\EloquentRepositoryInterface;
-use App\Models\Watermark;
-
-//use App\Repository\WatermarkRepositoryInterface;
-use App\Services\WatermarkService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Session;
 use App\Services\ImageService;
+use App\Services\WatermarkService;
+use Illuminate\Support\Facades\Auth;
 
 
 class ImageController extends Controller
 {
     protected $imageService;
     protected $watermarkService;
-
 
     public function __construct(
         ImageService     $imageService,
@@ -34,7 +24,6 @@ class ImageController extends Controller
         $this->imageService = $imageService;
         $this->watermarkService = $watermarkService;
     }
-
 
     public function index()
     {
