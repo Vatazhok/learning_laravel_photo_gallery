@@ -6,7 +6,6 @@ namespace App\Repository\Eloquent;
 use App\Models\Watermark;
 use App\Repository\WatermarkRepositoryInterface;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
 
 class WatermarkRepository extends BaseRepository implements WatermarkRepositoryInterface
 {

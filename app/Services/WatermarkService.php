@@ -45,7 +45,7 @@ class WatermarkService
 
     public function destroy($id)
     {
-        $watermarkImage=$this->watermarkRepository->destroy($id);
+        $watermarkImage = $this->watermarkRepository->destroy($id);
         foreach ($watermarkImage as $watImg) {
             if (file_exists($watImg['image'])) {
                 File::delete($watImg['image']);
@@ -56,6 +56,7 @@ class WatermarkService
 
 
     }
+
     public function destroyOne($id)
     {
         $image = $this->watermarkRepository->destroyOne($id);

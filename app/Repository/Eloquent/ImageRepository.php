@@ -2,12 +2,9 @@
 
 namespace App\Repository\Eloquent;
 
-use App\Http\Requests\Image\ImagePostRequest;
 use App\Models\Image;
 use App\Repository\ImageRepositoryInterface;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 
 class ImageRepository extends BaseRepository implements ImageRepositoryInterface
 {
@@ -26,10 +23,6 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
     /**
      * @return Collection
      */
-    public function all(): Collection
-    {
-        return $this->model->all();
-    }
 
 
     public function whereUserIdPaginate($authId)
@@ -47,7 +40,9 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
     {
         return $this->model->where(config('constants.image.id'), $id)->get();
     }
-    public function destroy($id){
+
+    public function destroy($id)
+    {
         $image = $this->model->find($id);
         $image->delete();
 
