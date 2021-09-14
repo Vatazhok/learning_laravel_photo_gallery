@@ -11,6 +11,7 @@
         @csrf
         <div class="container mt-2">
             <div class="row">
+
                 @foreach($images as $image)
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                         <div class="card mb-4">
@@ -26,6 +27,7 @@
         </div>
     </form>
     <div class="row justify-content-center">
+{{--        @dd($image)--}}
         {{$images->links('vendor.pagination.bootstrap-4')}}
     </div>
 
