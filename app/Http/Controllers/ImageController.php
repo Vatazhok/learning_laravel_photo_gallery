@@ -17,10 +17,9 @@ class ImageController extends Controller
     protected $watermarkService;
 
     public function __construct(
-        ImageService     $imageService,
+        ImageService $imageService,
         WatermarkService $watermarkService
-    )
-    {
+    ) {
         $this->imageService = $imageService;
         $this->watermarkService = $watermarkService;
     }

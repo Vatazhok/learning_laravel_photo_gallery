@@ -14,28 +14,26 @@ class ImageService
 
     public function __construct(
         ImageRepositoryInterface $imageRepository,
-    )
-    {
+    ) {
         $this->imageRepository = $imageRepository;
     }
 
     public function imagesUser($authId)
     {
+        //$this->imageRepository->whereUserIdPaginate($authId);
         return $this->imageRepository->whereUserIdPaginate($authId);
     }
 
     public function imageUpload($images, $authId)
     {
-
         foreach ($images as $image) {
-            $image_new_name = time() . $image->getClientOriginalName();
-            $image->move('images', $image_new_name);
+            $imageNewName = time() . $image->getClientOriginalName();
+            $image->move('images', $imageNewName);
             $post = new Image;
             $post->user_id = $authId;
-            $post->image = 'images/' . $image_new_name;
+            $post->image = 'images/' . $imageNewName;
             $post->save();
         }
-
     }
 
     public function imageSharing($requestCheckbox)
@@ -59,9 +57,8 @@ class ImageService
         } else {
             return back()->withErrors(__('imageFailure.imageNotFound'));
         }
-
-
     }
 
 }
+
 

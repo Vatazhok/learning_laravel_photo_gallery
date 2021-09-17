@@ -17,13 +17,7 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
     public function __construct(Image $model)
     {
         parent::__construct($model);
-
     }
-
-    /**
-     * @return Collection
-     */
-
 
     public function whereUserIdPaginate($authId)
     {
@@ -34,7 +28,6 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
     {
         return $this->model->where(config('constants.image.id'), $image)->get()->toArray();
     }
-
 
     public function showImage($id)
     {
