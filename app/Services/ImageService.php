@@ -20,8 +20,12 @@ class ImageService
 
     public function imagesUser($authId)
     {
-        //$this->imageRepository->whereUserIdPaginate($authId);
-        return $this->imageRepository->whereUserIdPaginate($authId);
+        $f=$this->imageRepository->whereUserIdPaginate($authId);
+//        $r=[$f,response('statusCode',200)];
+//        dd($r);
+//        return [$f,response('statusCode',200)];
+        return [$f,'statusCode'=>200];
+
     }
 
     public function imageUpload($images, $authId)

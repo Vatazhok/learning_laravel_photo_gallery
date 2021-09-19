@@ -28,7 +28,7 @@ class ImageController extends Controller
     {
         $authId = Auth::id();
         $images = $this->imageService->imagesUser($authId);
-        return view('welcome')->with('images', $images);
+        return view('welcome')->with('images', $images[0]);
     }
 
     public function post(ImagePostRequest $request)
