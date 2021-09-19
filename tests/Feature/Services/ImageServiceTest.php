@@ -27,10 +27,7 @@ class ImageServiceTest extends TestCase
         $imageService = new ImageService($imageInterface);
         $response = $imageService->imagesUser(1);
 
-        $this->assertEquals(
-            $response['statusCode'],
-            200
-        );
+        $this->assertEquals($response['statusCode'], 200);
     }
 
 }
