@@ -36,7 +36,7 @@ class ImageController extends Controller
     }
 //    public function index()
 //    {
-//        $authId = Auth::id();
+//        $authId = auth::id();
 //        $images = $this->imageService->imagesUser($authId);
 //        return view('welcome')->with('images', $images);
 //    }
