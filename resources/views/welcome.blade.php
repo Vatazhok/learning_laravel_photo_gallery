@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('app')
 @section('content')
     <div class="container">
         <a href="/home" class="btn btn-warning">Upload</a>

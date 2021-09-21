@@ -9,6 +9,8 @@ use App\Models\Image;
 use App\Services\ImageService;
 use App\Services\WatermarkService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
+use Inertia\Inertia;
 
 
 class ImageController extends Controller
@@ -26,10 +28,18 @@ class ImageController extends Controller
 
     public function index()
     {
-        $authId = Auth::id();
-        $images = $this->imageService->imagesUser($authId);
-        return view('welcome')->with('images', $images);
+
+        return Inertia::render('index', [
+            'id' =>5,
+
+        ]);
     }
+//    public function index()
+//    {
+//        $authId = Auth::id();
+//        $images = $this->imageService->imagesUser($authId);
+//        return view('welcome')->with('images', $images);
+//    }
 
     public function post(ImagePostRequest $request)
     {

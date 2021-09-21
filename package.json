@@ -10,8 +10,11 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@vue/compiler-sfc": "^3.2.12",
         "axios": "^0.21",
         "bootstrap": "^4.6.0",
+        "browser-sync": "^2.27.5",
+        "browser-sync-webpack-plugin": "^2.3.0",
         "jquery": "^3.6",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
@@ -19,6 +22,14 @@
         "postcss": "^8.1.14",
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.11",
-        "sass-loader": "^11.0.1"
+        "sass-loader": "^11.0.1",
+        "vue": "^3.2.12",
+        "vue-loader": "^16.5.0",
+        "vue-template-compiler": "^2.6.12"
+    },
+    "dependencies": {
+        "@inertiajs/inertia": "^0.10.1",
+        "@inertiajs/inertia-vue3": "^0.5.2",
+        "@inertiajs/progress": "^0.2.6"
     }
 }

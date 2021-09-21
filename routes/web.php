@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [App\Http\Controllers\ImageController::class, 'index']);
+Route::get('/', [App\Http\Controllers\ImageController::class, 'index'])->name('index');
+//Route::get('/',function (){
+// return Inertia::render('index');
+//});
 
 Auth::routes();
 
@@ -26,3 +30,7 @@ Route::get('/image/{id}', [App\Http\Controllers\ImageController::class, 'showIma
 Route::get('/watermark/{id}', [App\Http\Controllers\ImageController::class, 'addWatermark'])->name('addWatermark');
 Route::delete('/delete-watermark/{id}', [App\Http\Controllers\ImageController::class, 'destroyWatermark'])->name('destroyWatermark');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
