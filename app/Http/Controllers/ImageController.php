@@ -26,20 +26,23 @@ class ImageController extends Controller
         $this->watermarkService = $watermarkService;
     }
 
-    public function index()
-    {
-
-        return Inertia::render('index', [
-            'id' =>5,
-
-        ]);
-    }
 //    public function index()
 //    {
-//        $authId = auth::id();
-//        $images = $this->imageService->imagesUser($authId);
-//        return view('welcome')->with('images', $images);
+//
+//        return Inertia::render('index', [
+//            'id' =>5,
+//
+//        ]);
 //    }
+    public function index()
+    {
+        $authId = auth::id();
+        $images = $this->imageService->imagesUser($authId);
+//        return view('welcome')->with('images', $images);
+        return Inertia::render('Gallery', [
+            'images'=> $images
+        ]);
+    }
 
     public function post(ImagePostRequest $request)
     {
@@ -53,7 +56,10 @@ class ImageController extends Controller
     {
         $requestCheckbox = $request;
         $resultImage = $this->imageService->imageSharing($requestCheckbox);
-        return view('sharing_image')->with('images', $resultImage);
+//        return view('sharing_image')->with('images', $resultImage);
+        return Inertia::render('SharingImage', [
+            'images'=> $resultImage
+        ]);
     }
 
     public function showImage($id)
