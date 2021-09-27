@@ -21,8 +21,7 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
 
     public function whereUserIdPaginate($authId)
     {
-//        return $this->model->where(config('constants.image.user_id'), $authId)->paginate(12);
-        return $this->model->where(config('constants.image.user_id'), $authId)->get();
+        return $this->model->where(config('constants.image.user_id'), $authId)->paginate(12);
     }
 
     public function whereImageId($image)
@@ -32,7 +31,7 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
 
     public function showImage($id)
     {
-        return $this->model->where(config('constants.image.id'), $id)->get();
+        return $this->model->find($id);
     }
 
     public function destroy($id)

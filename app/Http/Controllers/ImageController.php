@@ -9,7 +9,9 @@ use App\Models\Image;
 use App\Services\ImageService;
 use App\Services\WatermarkService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Validation\Rules\In;
 use Inertia\Inertia;
 
 
@@ -26,53 +28,45 @@ class ImageController extends Controller
         $this->watermarkService = $watermarkService;
     }
 
-//    public function index()
-//    {
-//
-//        return Inertia::render('index', [
-//            'id' =>5,
-//
-//        ]);
-//    }
     public function index()
     {
         $authId = auth::id();
         $images = $this->imageService->imagesUser($authId);
-//        return view('welcome')->with('images', $images);
         return Inertia::render('Gallery', [
-            'images'=> $images
+            'images'=> $images,
         ]);
     }
 
+    public function upload(){
+        return Inertia::render('UploadImage');
+    }
     public function post(ImagePostRequest $request)
     {
+
         $authId = Auth::id();
-        $images = $request->image;
+        $images = $request->files;
         $this->imageService->imageUpload($images, $authId);
-        return redirect('/')->withSuccess(__('imageSuccess.uploaded'));
+
+        return Redirect::route('gallery')->with('success','nonunion');
     }
 
     public function sharingImage(ImageSharingImageRequest $request)
     {
         $requestCheckbox = $request;
         $resultImage = $this->imageService->imageSharing($requestCheckbox);
-//        return view('sharing_image')->with('images', $resultImage);
         return Inertia::render('SharingImage', [
             'images'=> $resultImage
         ]);
     }
 
-    public function showImage($id)
+    public function showImageWithWatermark($id)
     {
         $images = $this->imageService->showImage($id);
         $watermarkImage = $this->watermarkService->showWatermarkImage($id);
-        return view(
-            'show_image',
-            [
-                'images' => $images,
-                'watermarkImage' => $watermarkImage
-            ]
-        );
+        return Inertia::render('ShowImageWithWatermark',[
+            'images'=>$images,
+            'watermarkImage'=>$watermarkImage
+        ]);
     }
 
     public function addWatermark(ImageAddWatermarkRequest $request, $id)

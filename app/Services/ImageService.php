@@ -20,7 +20,6 @@ class ImageService
 
     public function imagesUser($authId)
     {
-        //$this->imageRepository->whereUserIdPaginate($authId);
         return $this->imageRepository->whereUserIdPaginate($authId);
     }
 
