@@ -10,8 +10,6 @@ use App\Services\ImageService;
 use App\Services\WatermarkService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Validation\Rules\In;
 use Inertia\Inertia;
 
 
@@ -33,21 +31,22 @@ class ImageController extends Controller
         $authId = auth::id();
         $images = $this->imageService->imagesUser($authId);
         return Inertia::render('Gallery', [
-            'images'=> $images,
+            'images' => $images,
         ]);
     }
 
-    public function upload(){
+    public function upload()
+    {
         return Inertia::render('UploadImage');
     }
+
     public function post(ImagePostRequest $request)
     {
-
         $authId = Auth::id();
         $images = $request->files;
         $this->imageService->imageUpload($images, $authId);
 
-        return Redirect::route('gallery')->with('success','nonunion');
+        return Redirect::route('gallery')->with('message', __('imageSuccess.uploaded'));
     }
 
     public function sharingImage(ImageSharingImageRequest $request)
@@ -55,7 +54,7 @@ class ImageController extends Controller
         $requestCheckbox = $request;
         $resultImage = $this->imageService->imageSharing($requestCheckbox);
         return Inertia::render('SharingImage', [
-            'images'=> $resultImage
+            'images' => $resultImage
         ]);
     }
 
@@ -63,9 +62,9 @@ class ImageController extends Controller
     {
         $images = $this->imageService->showImage($id);
         $watermarkImage = $this->watermarkService->showWatermarkImage($id);
-        return Inertia::render('ShowImageWithWatermark',[
-            'images'=>$images,
-            'watermarkImage'=>$watermarkImage
+        return Inertia::render('ShowImageWithWatermark', [
+            'images' => $images,
+            'watermarkImage' => $watermarkImage
         ]);
     }
 
