@@ -27,7 +27,7 @@ Route::get('/gallery', [App\Http\Controllers\ImageController::class, 'index'])->
 
 Route::get('/upload', [App\Http\Controllers\ImageController::class, 'upload'])->name('upload');
 Route::post('/uploadImage', [App\Http\Controllers\ImageController::class, 'post'])->name('uploadImage');
-//Route::delete('/image/{id}', [App\Http\Controllers\ImageController::class, 'destroy'])->name('destroy');
+Route::delete('/image/{id}', [App\Http\Controllers\ImageController::class, 'destroy'])->name('destroy');
 Route::post('/sharingImage', [App\Http\Controllers\ImageController::class, 'sharingImage'])->name('sharingImage');
 //Route::post('/watermark', [App\Http\Controllers\ImageController::class, 'watermark'])->name('watermark');
 Route::get('/image/{id}', [App\Http\Controllers\ImageController::class, 'showImageWithWatermark'])->name('showImageWithWatermark');
