@@ -37,9 +37,7 @@
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block"
                                  :src="image.image">
                         </a>
-                        <div class="mt-4">
-                            <h2 class="text-gray-900 title-font text-lg font-medium">The Catalyzer</h2>
-                        </div>
+
                     </div>
                 </div>
             </div>

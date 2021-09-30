@@ -24,7 +24,7 @@ class ImageAddWatermarkRequest extends FormRequest
     public function rules()
     {
         return [
-            'checkbox'=>'required'
+            'radio'=>'required'
         ];
     }
 }

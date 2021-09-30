@@ -3,10 +3,19 @@
 
     <BreezeAuthenticatedLayout>
         <template #header>
-            <button form="selectImage" type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                Share selected
-            </button>
+            <div class="flex space-x-3">
+                <button form="selectImage" type="submit"
+                        class="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                    Share selected
+                </button>
+                <form @submit.prevent="form.delete('/image/'+images.id)" class="flex">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                        Delete all
+                    </button>
+                </form>
+            </div>
+
         </template>
         <div v-for="(errorMsg, errorIndex) in errors" id="alert"
              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -19,46 +28,66 @@
         </div>
         <!--        <template>-->
 
-            <div class="container px-5 py-4 mx-auto">
-                <div class="flex flex-wrap -m-4">
-                    <div class="px-4 py-4 md:w-6/12 lg:w-4/12">
-                        <a class="block relative h-64 rounded overflow-hidden">
-                            <img alt="ecommerce" class="object-cover object-center w-full h-full block"
-                                 :src="'/'+images.image">
-                        </a>
-                        <div class="mt-4">
-                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY</h3>
-                            <h2 class="text-gray-900 title-font text-lg font-medium">The Catalyzer</h2>
-                            <form @submit.prevent="form.delete('/image/'+images.id)">
-                                <button type="submit"
-                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                                    Delete
-                                </button>
-                            </form>
-                        </div>
-                        <div>
-                            <form @submit.prevent="submit">
-                                <input type="checkbox" value="images/adguard-watermark.png" v-model="form.checkbox">
-                                <img src="/images/adguard-watermark.png"
-                                     class="card-img-top" alt="Broken">
-                                <input type="checkbox" value="images/draft-watermark.png" v-model="form.checkbox">
-                                <img src="/images/draft-watermark.png"
-                                     class="card-img-top" alt="Broken">
-                                <input type="checkbox" value="images/icon-documents.png" v-model="form.checkbox">
-                                <img src="/images/icon-documents.png"
-                                     class="card-img-top" alt="Broken">
-                            </form>
-                        </div>
-                        <div v-for="watermark in watermarkImage">
-                            <img :src="'/'+watermark.image" alt="">
-                        </div>
-                    </div>
+        <div class="container flex flex-wrap md:flex-nowrap px-5 py-4 mx-auto">
+            <div class="flex flex-col md:w-10.5/12 xl:w-10/12">
+                <a class="flex rounded overflow-hidden">
+                    <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                         :src="'/'+images.image">
+                </a>
+                <div class="flex mt-3 space-x-3">
+                    <form @submit.prevent="form.delete('/image/'+images.id)">
+                        <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                            Delete
+                        </button>
+                    </form>
+                    <form @submit.prevent="form.get('/watermark/'+images.id)">
+                        <button type="submit"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                            Add watermark
+                        </button>
+                    </form>
                 </div>
+            </div>
+            <div class="flex md:w-1.5/12 xl:w-2/12 ml-5">
+                <form class="flex flex-col-reverse md:flex-row" @submit.prevent="submit">
+                    <div class="flex justify-around md:flex-col md:w-1/5 xl:w-1/12">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="images/adguard-watermark-256.png" v-model="form.radio">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="images/draft-watermark-256.png" v-model="form.radio">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="images/icon-documents-256.png" v-model="form.radio">
+                    </div>
+
+                    <div class="flex md:flex-col md:justify-around w-4/12 md:w-4/5 xl:w-11/12">
+                        <img src="/images/adguard-watermark-256.png" class="" alt="Broken">
+                        <img src="/images/draft-watermark-256.png" class=" " alt="Broken">
+                        <img src="/images/icon-documents-256.png" class=" " alt="Broken">
+                    </div>
+                </form>
             </div>
 
 
-        <!--        </template>-->
-
+        </div>
+        <div class="container px-5 py-4 mx-auto">
+            <div class="flex flex-wrap colo -m-4">
+                <div v-for="watermark in watermarkImage" class=" px-4 py-4 md:w-6/12 lg:w-4/12">
+                    <a class=" block relative h-64 rounded overflow-hidden">
+                        <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                             :src="'/'+watermark.image">
+                    </a>
+                    <div class="flex mt-3">
+                        <form @submit.prevent="form.delete('/delete-watermark/'+watermark.id)">
+                            <button type="submit"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </BreezeAuthenticatedLayout>
 
@@ -67,7 +96,7 @@
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import {Head} from "@inertiajs/inertia-vue3";
-import { useForm } from '@inertiajs/inertia-vue3'
+import {useForm} from '@inertiajs/inertia-vue3'
 import {reactive} from "vue";
 import {Inertia} from "@inertiajs/inertia";
 
@@ -79,15 +108,13 @@ export default {
     },
     name: "ShowImageWithWatermark",
     props: ['images', 'watermarkImage'],
-    setup () {
+    setup() {
         const form = useForm({
-            checkbox:[],
-            password:null,
-            email:null
+            radio: null,
 
         })
 
-        return { form }
+        return {form}
     }
 }
 </script>

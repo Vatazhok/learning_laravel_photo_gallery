@@ -24,7 +24,8 @@ class ImagePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'image'=>'required|image|mimetypes:image/jpeg,image/png,image/jpg'
+            'image'=>'required|array|min:1',
+            'image.*'=>'image|mimetypes:image/jpeg,image/png,image/jpg'
         ];
     }
 }

@@ -14,6 +14,4 @@ interface ImageRepositoryInterface
     public function showImage($id);
 
     public function destroy($id);
-
-
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\Image\ImageSharingImageRequest;
 use App\Models\Image;
 use App\Services\ImageService;
 use App\Services\WatermarkService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -70,9 +71,9 @@ class ImageController extends Controller
 
     public function addWatermark(ImageAddWatermarkRequest $request, $id)
     {
-        $imageCheckbox = $request->checkbox;
+        $imageRadio = $request->radio;
         $images = Image::where(config('constants.image.id'), $id)->first();
-        $this->watermarkService->addWatermarkToImage($images, $imageCheckbox);
+        $this->watermarkService->addWatermarkToImage($images, $imageRadio);
 
         return redirect()->back()->withSuccess(__('imageSuccess.addWatermark'));
     }
@@ -90,6 +91,14 @@ class ImageController extends Controller
         $this->watermarkService->destroyOne($id);
 
         return redirect()->back()->withSuccess(__('imageSuccess.deleteImageWithWatermark'));
+    }
+
+    public function destroyAll(Request $request)
+    {
+        $this->imageService->destroyAll($request->checkbox);
+        $this->watermarkService->destroyAll($request->checkbox);
+
+        return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
     }
 
 }

@@ -25,13 +25,15 @@ class ImageService
 
     public function imageUpload($images, $authId)
     {
-        foreach ($images as $image) {
-            $imageNewName = time() . $image->getClientOriginalName();
-            $image->move('images', $imageNewName);
-            $post = new Image;
-            $post->user_id = $authId;
-            $post->image = 'images/' . $imageNewName;
-            $post->save();
+        foreach ($images as $imageArr) {
+            foreach ($imageArr as $image) {
+                $imageNewName = time() . $image->getClientOriginalName();
+                $image->move('images', $imageNewName);
+                $post = new Image;
+                $post->user_id = $authId;
+                $post->image = 'images/' . $imageNewName;
+                $post->save();
+            }
         }
     }
 
@@ -57,6 +59,18 @@ class ImageService
             return back()->withErrors(__('imageFailure.imageNotFound'));
         }
     }
+    public function destroyAll($checkbox)
+    {
+        foreach ($checkbox as $id){
+            $image = $this->imageRepository->destroy($id);
+            if (file_exists($image->image)) {
+                File::delete($image->image);
+            } else {
+                return back()->withErrors(__('imageFailure.imageNotFound'));
+            }
+        }
+    }
+
 
 }
 
