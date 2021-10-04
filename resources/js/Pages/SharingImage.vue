@@ -4,12 +4,12 @@
     <BreezeAuthenticatedLayout>
         <template #header>
             <button form="selectImage" type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 border border-blue-700 rounded">
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
                 Delete selected
             </button>
         </template>
 
-        <form @submit.prevent="form.delete('/destroyAll')" class="bg-gray-200" id="selectImage">
+        <form @submit.prevent="form.delete('/destroyAll')" id="selectImage">
             <div class="container px-5 py-4 mx-auto">
                 <div class="flex flex-wrap -m-4">
                     <div v-for="image in images" class=" px-4 py-4 md:w-6/12 lg:w-4/12">

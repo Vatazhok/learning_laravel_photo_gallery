@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\Image;
 use App\Repository\ImageRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 
 class ImageService
@@ -42,12 +43,16 @@ class ImageService
         foreach ($requestCheckbox->checkbox as $image) {
             $images[] = $this->imageRepository->whereImageId($image);
         }
-        return call_user_func_array('array_merge', $images);
+        return array_merge(...$images);
     }
 
     public function showImage($id)
     {
-        return $this->imageRepository->showImage($id);
+        $image = $this->imageRepository->showImage($id);
+        if (!$image) {
+            throw new ModelNotFoundException('Image with ID: ' . $id . ' not found');
+        }
+        return $image;
     }
 
     public function destroy($id)
@@ -56,17 +61,18 @@ class ImageService
         if (file_exists($image->image)) {
             File::delete($image->image);
         } else {
-            return back()->withErrors(__('imageFailure.imageNotFound'));
+            return back()->with('message', __('imageFailure.imageNotFound'));
         }
     }
+
     public function destroyAll($checkbox)
     {
-        foreach ($checkbox as $id){
+        foreach ($checkbox as $id) {
             $image = $this->imageRepository->destroy($id);
             if (file_exists($image->image)) {
                 File::delete($image->image);
             } else {
-                return back()->withErrors(__('imageFailure.imageNotFound'));
+                return back()->with('message', __('imageFailure.imageNotFound'));
             }
         }
     }

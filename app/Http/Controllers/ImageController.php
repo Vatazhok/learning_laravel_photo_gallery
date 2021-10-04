@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Image\ImageAddWatermarkRequest;
 use App\Http\Requests\Image\ImagePostRequest;
 use App\Http\Requests\Image\ImageSharingImageRequest;
-use App\Models\Image;
 use App\Services\ImageService;
 use App\Services\WatermarkService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -61,8 +61,13 @@ class ImageController extends Controller
 
     public function showImageWithWatermark($id)
     {
-        $images = $this->imageService->showImage($id);
-        $watermarkImage = $this->watermarkService->showWatermarkImage($id);
+        try {
+            $images = $this->imageService->showImage($id);
+            $watermarkImage = $this->watermarkService->showWatermarkImage($id);
+        } catch (ModelNotFoundException $exception) {
+            return Redirect::route('gallery')->withErrors($exception->getMessage());
+        }
+
         return Inertia::render('ShowImageWithWatermark', [
             'images' => $images,
             'watermarkImage' => $watermarkImage
@@ -72,10 +77,10 @@ class ImageController extends Controller
     public function addWatermark(ImageAddWatermarkRequest $request, $id)
     {
         $imageRadio = $request->radio;
-        $images = Image::where(config('constants.image.id'), $id)->first();
+        $images = $this->imageService->showImage($id);
         $this->watermarkService->addWatermarkToImage($images, $imageRadio);
 
-        return redirect()->back()->withSuccess(__('imageSuccess.addWatermark'));
+        return Redirect::back()->with('message', __('imageSuccess.addWatermark'));
     }
 
     public function destroy($id)
@@ -83,14 +88,14 @@ class ImageController extends Controller
         $this->imageService->destroy($id);
         $this->watermarkService->destroy($id);
 
-        return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
+        return Redirect::route('gallery')->with('message', __('imageSuccess.deleteWatermarkWithImage'));
     }
 
     public function destroyWatermark($id)
     {
         $this->watermarkService->destroyOne($id);
 
-        return redirect()->back()->withSuccess(__('imageSuccess.deleteImageWithWatermark'));
+        return Redirect::route('gallery')->with('message', __('imageSuccess.deleteImageWithWatermark'));
     }
 
     public function destroyAll(Request $request)
@@ -98,7 +103,7 @@ class ImageController extends Controller
         $this->imageService->destroyAll($request->checkbox);
         $this->watermarkService->destroyAll($request->checkbox);
 
-        return redirect('/')->withSuccess(__('imageSuccess.deleteWatermarkWithImage'));
+        return Redirect::route('gallery')->with('message', __('imageSuccess.deleteWatermarkWithImage'));
     }
 
 }

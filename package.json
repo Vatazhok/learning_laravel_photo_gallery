@@ -37,6 +37,7 @@
         "@inertiajs/inertia": "^0.10.1",
         "@inertiajs/inertia-vue3": "^0.5.2",
         "@inertiajs/progress": "^0.2.6",
+        "v-viewer": "^1.6.4",
         "vue-toast-notification": "^2.0.1"
     }
 }

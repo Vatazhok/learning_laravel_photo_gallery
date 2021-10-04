@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Watermark;
 use App\Repository\WatermarkRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 
 
@@ -21,6 +22,7 @@ class WatermarkService
     public function showWatermarkImage($id)
     {
         return $this->watermarkRepository->show($id);
+
     }
 
     public function addWatermarkToImage($images, $imageRadio)
