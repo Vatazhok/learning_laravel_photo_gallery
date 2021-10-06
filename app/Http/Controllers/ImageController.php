@@ -45,7 +45,11 @@ class ImageController extends Controller
     {
         $authId = Auth::id();
         $images = $request->files;
-        $this->imageService->imageUpload($images, $authId);
+        try {
+            $this->imageService->imagesUpload($request->file('image'), $authId);
+        } catch (ModelNotFoundException $exception) {
+            return Redirect::back()->withErrors($exception->getMessage());
+        }
 
         return Redirect::route('gallery')->with('message', __('imageSuccess.uploaded'));
     }
@@ -95,7 +99,7 @@ class ImageController extends Controller
     {
         $this->watermarkService->destroyOne($id);
 
-        return Redirect::route('gallery')->with('message', __('imageSuccess.deleteImageWithWatermark'));
+        return Redirect::back()->with('message', __('imageSuccess.deleteImageWithWatermark'));
     }
 
     public function destroyAll(Request $request)
@@ -105,5 +109,6 @@ class ImageController extends Controller
 
         return Redirect::route('gallery')->with('message', __('imageSuccess.deleteWatermarkWithImage'));
     }
+
 
 }

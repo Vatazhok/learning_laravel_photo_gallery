@@ -32,11 +32,13 @@
         </div>
 
         <form @submit.prevent="submit" id="selectImage">
-            <div class="container px-5 py-4 mx-auto">
-                <div class="flex flex-wrap colo -m-4">
-                    <div v-for="image in images.data" class=" px-4 py-4 md:w-6/12 lg:w-4/12">
-                        <input type="checkbox" :value="image.id" v-model="form.checkbox">
-                        <a class=" block relative h-64 rounded overflow-hidden">
+            <div class="container mx-auto">
+                <div class="flex flex-wrap">
+                    <div v-for="image in images.data" class="flex justify-around shadow p-2 md:w-6/12 lg:w-4/12">
+                        <div class="flex justify-around flex-col md:w-1/12 xl:w-0.5/12 m-1">
+                            <input type="checkbox" :value="image.id" v-model="form.checkbox">
+                        </div>
+                        <a class="flex xl:w-11/12 h-64 rounded overflow-hidden" :href="'/image/'+ image.id">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block"
                                  :src="image.image">
                         </a>
@@ -46,7 +48,7 @@
         </form>
 
     </BreezeAuthenticatedLayout>
-    <Pagination class="flex justify-center mt-3" :links="images.links"/>
+    <Pagination class="flex justify-center m-3" :links="images.links"/>
 </template>
 
 <script>

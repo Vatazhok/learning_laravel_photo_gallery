@@ -10,16 +10,22 @@
         </template>
 
         <form @submit.prevent="form.delete('/destroyAll')" id="selectImage">
-            <div class="container px-5 py-4 mx-auto">
-                <div class="flex flex-wrap -m-4">
-                    <div v-for="image in images" class=" px-4 py-4 md:w-6/12 lg:w-4/12">
-                        <input type="checkbox" :value="image.id" v-model="form.checkbox">
-                        <a class="block relative h-64 rounded overflow-hidden">
-                            <img alt="ecommerce" class="object-cover object-center w-full h-full block"
-                                 :src="image.image">
-                        </a>
+            <div class="container mx-auto">
+                <div class="flex flex-wrap  ">
+                    <div v-for="image in images" class="flex flex-col p-2 shadow md:w-6/12 lg:w-4/12 ">
                         <div class="flex">
-                            <a :href="route('showImageWithWatermark',image.id)" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 border border-blue-700 rounded" role="button" aria-pressed="true">add watermark</a>
+                            <div class="flex justify-around flex-col md:w-1/12 xl:w-0.5/12 m-1">
+                                <input type="checkbox" :value="image.id" v-model="form.checkbox">
+                            </div>
+                            <a class="flex xl:w-11/12 h-64 rounded overflow-hidden">
+                                <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                                     :src="image.image">
+                            </a>
+                        </div>
+                        <div class="flex justify-center">
+                            <a :href="route('showImageWithWatermark',image.id)"
+                               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 border border-blue-700 rounded"
+                               role="button" aria-pressed="true">add watermark</a>
                         </div>
                     </div>
                 </div>
@@ -41,7 +47,7 @@ export default {
 
     },
     name: "SharingImage",
-    props:['images', 'errors'],
+    props: ['images', 'errors'],
     setup() {
         const form = useForm({
             checkbox: [],

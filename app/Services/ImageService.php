@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Models\Image;
 use App\Repository\ImageRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 
 class ImageService
@@ -24,18 +25,23 @@ class ImageService
         return $this->imageRepository->whereUserIdPaginate($authId);
     }
 
-    public function imageUpload($images, $authId)
+    public function imagesUpload(array $images, $authId)
     {
-        foreach ($images as $imageArr) {
-            foreach ($imageArr as $image) {
-                $imageNewName = time() . $image->getClientOriginalName();
-                $image->move('images', $imageNewName);
-                $post = new Image;
-                $post->user_id = $authId;
-                $post->image = 'images/' . $imageNewName;
-                $post->save();
-            }
+        foreach ($images as $image) {
+            $this->imageUpload($image, $authId);
         }
+    }
+
+    public function imageUpload(UploadedFile $image, $authId)
+    {
+        $post = new Image();
+        $post->user_id = $authId;
+        $image->store(config('filesystems.disks.images.visibility'));
+        $post->image = config('filesystems.disks.images.src') . '/' . $image->hashName();
+        if (!$post->image) {
+            throw new ModelNotFoundException('Image was not uploaded');
+        }
+        $post->save();
     }
 
     public function imageSharing($requestCheckbox)
@@ -43,6 +49,7 @@ class ImageService
         foreach ($requestCheckbox->checkbox as $image) {
             $images[] = $this->imageRepository->whereImageId($image);
         }
+
         return array_merge(...$images);
     }
 
@@ -52,6 +59,7 @@ class ImageService
         if (!$image) {
             throw new ModelNotFoundException('Image with ID: ' . $id . ' not found');
         }
+
         return $image;
     }
 

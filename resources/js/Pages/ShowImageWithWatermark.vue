@@ -19,9 +19,10 @@
         </template>
 
         <div class="container mx-auto">
-            <div  v-if="$page.props.flash.message" id="alert"
-                  class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mt-3 rounded relative" role="alert">
-                <strong class="font-bold">{{  $page.props.flash.message }}</strong>
+            <div v-if="$page.props.flash.message" id="alert"
+                 class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 mt-3 rounded relative"
+                 role="alert">
+                <strong class="font-bold">{{ $page.props.flash.message }}</strong>
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                 <svg @click="delete $page.props.flash.message" class="fill-current h-6 w-6 text-green-500" role="button"
                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path
@@ -58,17 +59,17 @@
                 <form class="flex flex-col-reverse md:flex-row" @submit.prevent="submit">
                     <div class="flex justify-around md:flex-col md:w-1/5 xl:w-1/12">
                         <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="images/adguard-watermark-256.png" v-model="form.radio">
+                               value="storage/images/adguard-watermark-256.png" v-model="form.radio">
                         <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="images/draft-watermark-256.png" v-model="form.radio">
+                               value="storage/images/draft-watermark-256.png" v-model="form.radio">
                         <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="images/icon-documents-256.png" v-model="form.radio">
+                               value="storage/images/icon-documents-256.png" v-model="form.radio">
                     </div>
                     <!-- todo: милиці w-4/12-->
                     <div class="flex md:flex-col md:justify-around w-4/12 md:w-4/5 xl:w-11/12">
-                        <img src="/images/adguard-watermark-256.png" class="" alt="Broken">
-                        <img src="/images/draft-watermark-256.png" class=" " alt="Broken">
-                        <img src="/images/icon-documents-256.png" class=" " alt="Broken">
+                        <img src="/storage/images/adguard-watermark-256.png" class="" alt="Broken">
+                        <img src="/storage/images/draft-watermark-256.png" class=" " alt="Broken">
+                        <img src="/storage/images/icon-documents-256.png" class=" " alt="Broken">
                     </div>
                 </form>
             </div>
