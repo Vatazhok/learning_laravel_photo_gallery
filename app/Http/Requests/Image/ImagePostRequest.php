@@ -24,8 +24,16 @@ class ImagePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'image'=>'required|array|min:1',
-            'image.*'=>'image|mimetypes:image/jpeg,image/png,image/jpg'
+            'image' => 'required|array|min:1',
+            'image.*' => 'image|mimetypes:image/jpeg,image/png,image/jpg'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'image.*.image' => 'One or more of the files is not a picture.',
+            'image.required' => 'The pictures is not selected.'
         ];
     }
 }

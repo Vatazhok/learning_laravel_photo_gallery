@@ -13,6 +13,7 @@ class ImageService
 {
 
     protected $imageRepository;
+    protected string $orderBy = 'ASC';
 
     public function __construct(
         ImageRepositoryInterface $imageRepository,
@@ -20,9 +21,12 @@ class ImageService
         $this->imageRepository = $imageRepository;
     }
 
-    public function imagesUser($authId)
+    public function imagesUser($authId, $request)
     {
-        return $this->imageRepository->whereUserIdPaginate($authId);
+        if ($request->query('orderBy') === 'DESC') {
+            $this->orderBy = 'DESC';
+        }
+        return $this->imageRepository->whereUserIdPaginate($authId, $this->orderBy);
     }
 
     public function imagesUpload(array $images, $authId)
@@ -84,7 +88,6 @@ class ImageService
             }
         }
     }
-
 
 }
 

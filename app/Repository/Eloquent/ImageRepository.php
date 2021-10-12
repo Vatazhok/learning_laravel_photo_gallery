@@ -4,7 +4,6 @@ namespace App\Repository\Eloquent;
 
 use App\Models\Image;
 use App\Repository\ImageRepositoryInterface;
-use Illuminate\Support\Collection;
 
 class ImageRepository extends BaseRepository implements ImageRepositoryInterface
 {
@@ -19,9 +18,12 @@ class ImageRepository extends BaseRepository implements ImageRepositoryInterface
         parent::__construct($model);
     }
 
-    public function whereUserIdPaginate($authId)
+    public function whereUserIdPaginate($authId, $orderBy)
     {
-        return $this->model->where(config('constants.image.user_id'), $authId)->paginate(12);
+        return $this->model->where(config('constants.image.user_id'), $authId)->orderBy(
+            'created_at',
+            $orderBy
+        )->paginate(12);
     }
 
     public function whereImageId($image)

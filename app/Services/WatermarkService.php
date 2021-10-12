@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Watermark;
 use App\Repository\WatermarkRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 
 
@@ -22,7 +21,6 @@ class WatermarkService
     public function showWatermarkImage($id)
     {
         return $this->watermarkRepository->show($id);
-
     }
 
     public function addWatermarkToImage($images, $imageRadio)
@@ -33,7 +31,7 @@ class WatermarkService
         /* insert watermark at bottom-right corner with 10px offset */
         $img->insert($imageRadio, 'bottom-right', 10, 10);
 
-        $path = 'images/' . $pathImage . $pathWatermark . '.png';
+        $path = config('filesystems.disks.images.src') . '/' . $pathImage . $pathWatermark . '.png';
         $img->save(public_path($path));
         $watermark = new Watermark();
         $watermark->user_id = $images->user_id;

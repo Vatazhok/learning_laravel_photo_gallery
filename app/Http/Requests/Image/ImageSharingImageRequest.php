@@ -27,4 +27,10 @@ class ImageSharingImageRequest extends FormRequest
             'checkbox'=>'required'
         ];
     }
+    public function messages()
+    {
+        return [
+            'required' => 'The pictures is not selected.'
+        ];
+    }
 }

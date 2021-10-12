@@ -1,12 +1,49 @@
 <template>
     <Head title="Show image and watermark"/>
 
+
+    <Modal class="z-50"
+           v-show="isModalVisible"
+           @close="closeModal">
+        <template v-slot:header>
+            Select watermarks.
+        </template>
+        <template v-slot:body>
+            <div class="flex md:w-1.5/12">
+                <form class="flex flex-col-reverse " @submit.prevent="submit">
+                    <div class="flex justify-around ">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="storage/images/adguard-watermark-256.png" v-model="form.radio">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="storage/images/draft-watermark-256.png" v-model="form.radio">
+                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
+                               value="storage/images/icon-documents-256.png" v-model="form.radio">
+                    </div>
+                    <div class="flex md:justify-around">
+                        <img src="/storage/images/adguard-watermark-256.png" class="" alt="Broken">
+                        <img src="/storage/images/draft-watermark-256.png" class=" " alt="Broken">
+                        <img src="/storage/images/icon-documents-256.png" class=" " alt="Broken">
+                    </div>
+                </form>
+            </div>
+        </template>
+        <template v-slot:footer>
+            <form @submit.prevent="form.get('/watermark/'+images.id)">
+                <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                    Add watermark
+                </button>
+            </form>
+        </template>
+    </Modal>
+
     <BreezeAuthenticatedLayout>
         <template #header>
             <div class="flex space-x-3">
-                <button form="selectImage" type="submit"
-                        class="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                    Share selected
+                <button type="button"
+                        class="flex bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded"
+                        @click="showModal">
+                    Add watermark
                 </button>
                 <form @submit.prevent="form.delete('/image/'+images.id)" class="flex">
                     <button type="submit"
@@ -40,46 +77,18 @@
             </div>
         </div>
 
-        <div class="container flex flex-wrap md:flex-nowrap px-5 py-4 mx-auto">
-            <div class="flex flex-col md:w-10.5/12 xl:w-10/12">
+        <div class="container flex justify-center px-5 py-4 mx-auto">
+            <div class="flex ">
                 <a class="flex rounded overflow-hidden">
                     <img alt="ecommerce" class="object-cover object-center w-full h-full block"
                          :src="'/'+images.image">
                 </a>
-                <div class="flex mt-3 space-x-3">
-                    <form @submit.prevent="form.get('/watermark/'+images.id)">
-                        <button type="submit"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                            Add watermark
-                        </button>
-                    </form>
-                </div>
             </div>
-            <div class="flex md:w-1.5/12 xl:w-2/12 ml-5">
-                <form class="flex flex-col-reverse md:flex-row" @submit.prevent="submit">
-                    <div class="flex justify-around md:flex-col md:w-1/5 xl:w-1/12">
-                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="storage/images/adguard-watermark-256.png" v-model="form.radio">
-                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="storage/images/draft-watermark-256.png" v-model="form.radio">
-                        <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
-                               value="storage/images/icon-documents-256.png" v-model="form.radio">
-                    </div>
-                    <!-- todo: милиці w-4/12-->
-                    <div class="flex md:flex-col md:justify-around w-4/12 md:w-4/5 xl:w-11/12">
-                        <img src="/storage/images/adguard-watermark-256.png" class="" alt="Broken">
-                        <img src="/storage/images/draft-watermark-256.png" class=" " alt="Broken">
-                        <img src="/storage/images/icon-documents-256.png" class=" " alt="Broken">
-                    </div>
-                </form>
-            </div>
-
-
         </div>
         <div class="container px-5 py-4 mx-auto">
             <div class="flex flex-wrap colo -m-4">
                 <div v-for="watermark in watermarkImage" class=" px-4 py-4 md:w-6/12 lg:w-4/12">
-                    <a class=" block relative h-64 rounded overflow-hidden">
+                    <a class=" block relative rounded overflow-hidden">
                         <img alt="ecommerce" class="object-cover object-center w-full h-full block"
                              :src="'/'+watermark.image">
                     </a>
@@ -94,7 +103,6 @@
                 </div>
             </div>
         </div>
-
     </BreezeAuthenticatedLayout>
 
 </template>
@@ -102,29 +110,37 @@
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import {Head} from "@inertiajs/inertia-vue3";
-import {useForm} from '@inertiajs/inertia-vue3'
-import {reactive} from "vue";
-import {Inertia} from "@inertiajs/inertia";
+import {useForm} from '@inertiajs/inertia-vue3';
+import Modal from "@/Components/Modal";
 
 export default {
     components: {
         BreezeAuthenticatedLayout,
         Head,
+        Modal
 
+    },
+    data() {
+        return {
+            isModalVisible: false
+        }
     },
     name: "ShowImageWithWatermark",
     props: ['images', 'watermarkImage', 'errors'],
     setup() {
         const form = useForm({
             radio: null,
-
         })
 
         return {form}
+    },
+    methods: {
+        showModal() {
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.isModalVisible = false;
+        }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

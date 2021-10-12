@@ -11,13 +11,13 @@
 
         <form @submit.prevent="form.delete('/destroyAll')" id="selectImage">
             <div class="container mx-auto">
-                <div class="flex flex-wrap  ">
-                    <div v-for="image in images" class="flex flex-col p-2 shadow md:w-6/12 lg:w-4/12 ">
+                <div class="flex flex-wrap justify-around">
+                    <div v-for="image in images" class="flex flex-col shadow p-2 my-10 w-auto">
                         <div class="flex">
-                            <div class="flex justify-around flex-col md:w-1/12 xl:w-0.5/12 m-1">
+                            <div class="flex justify-around jus flex-col xl:w-0.5/12">
                                 <input type="checkbox" :value="image.id" v-model="form.checkbox">
                             </div>
-                            <a class="flex xl:w-11/12 h-64 rounded overflow-hidden">
+                            <a class="flex xl:w-11.5/12 h-64 rounded overflow-hidden m-1">
                                 <img alt="ecommerce" class="object-cover object-center w-full h-full block"
                                      :src="image.image">
                             </a>
@@ -37,8 +37,6 @@
 <script>
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated";
 import {Head, useForm} from "@inertiajs/inertia-vue3";
-import {reactive} from "vue";
-import {Inertia} from "@inertiajs/inertia";
 
 export default {
     components: {

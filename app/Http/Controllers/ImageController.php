@@ -27,10 +27,10 @@ class ImageController extends Controller
         $this->watermarkService = $watermarkService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $authId = auth::id();
-        $images = $this->imageService->imagesUser($authId);
+        $images = $this->imageService->imagesUser($authId, $request);
         return Inertia::render('Gallery', [
             'images' => $images,
         ]);

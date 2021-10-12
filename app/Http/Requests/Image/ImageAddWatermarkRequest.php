@@ -27,4 +27,10 @@ class ImageAddWatermarkRequest extends FormRequest
             'radio'=>'required'
         ];
     }
+    public function messages()
+    {
+        return [
+          'required'=>'Watermark is not selected.'
+        ];
+    }
 }
