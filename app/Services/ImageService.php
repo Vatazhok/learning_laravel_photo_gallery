@@ -38,14 +38,14 @@ class ImageService
 
     public function imageUpload(UploadedFile $image, $authId)
     {
-        $post = new Image();
-        $post->user_id = $authId;
+        $imageUpload = new Image();
+        $imageUpload->user_id = $authId;
         $image->store(config('filesystems.disks.images.visibility'));
-        $post->image = config('filesystems.disks.images.src') . '/' . $image->hashName();
-        if (!$post->image) {
+        $imageUpload->image = config('filesystems.disks.images.src') . '/' . $image->hashName();
+        if (!$imageUpload->image) {
             throw new ModelNotFoundException('Image was not uploaded');
         }
-        $post->save();
+        $imageUpload->save();
     }
 
     public function imageSharing($requestCheckbox)

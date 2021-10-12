@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::get('/gallery', [App\Http\Controllers\ImageController::class, 'index'])->name('gallery')->middleware('auth');
 Route::get('/upload', [App\Http\Controllers\ImageController::class, 'upload'])->name('upload')->middleware('auth');
-Route::post('/uploadImage', [App\Http\Controllers\ImageController::class, 'post'])->name('uploadImage')->middleware('auth');
+Route::post('/uploadImage', [App\Http\Controllers\ImageController::class, 'uploadImage'])->name('uploadImage')->middleware('auth');
 Route::delete('/image/{id}', [App\Http\Controllers\ImageController::class, 'destroy'])->name('destroy')->middleware('auth');
 Route::delete('/destroyAll', [App\Http\Controllers\ImageController::class, 'destroyAll'])->name('destroyAll')->middleware('auth');
 Route::post('/sharingImage', [App\Http\Controllers\ImageController::class, 'sharingImage'])->name('sharingImage')->middleware('auth');

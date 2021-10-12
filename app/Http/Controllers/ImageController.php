@@ -9,7 +9,6 @@ use App\Services\ImageService;
 use App\Services\WatermarkService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
@@ -29,8 +28,11 @@ class ImageController extends Controller
 
     public function index(Request $request)
     {
-        $authId = auth::id();
-        $images = $this->imageService->imagesUser($authId, $request);
+        $images = $this->imageService->imagesUser($request->user()->id, $request);
+
+        if ($images->total() === 0) {
+            return Redirect::route('upload');
+        }
         return Inertia::render('Gallery', [
             'images' => $images,
         ]);
@@ -41,12 +43,10 @@ class ImageController extends Controller
         return Inertia::render('UploadImage');
     }
 
-    public function post(ImagePostRequest $request)
+    public function uploadImage(ImagePostRequest $request)
     {
-        $authId = Auth::id();
-        $images = $request->files;
         try {
-            $this->imageService->imagesUpload($request->file('image'), $authId);
+            $this->imageService->imagesUpload($request->file('image'), $request->user()->id);
         } catch (ModelNotFoundException $exception) {
             return Redirect::back()->withErrors($exception->getMessage());
         }
