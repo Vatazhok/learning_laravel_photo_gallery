@@ -28,6 +28,7 @@ Route::post('/uploadImage', [App\Http\Controllers\ImageController::class, 'uploa
 Route::delete('/image/{id}', [App\Http\Controllers\ImageController::class, 'destroy'])->name('destroy')->middleware('auth');
 Route::delete('/destroyAll', [App\Http\Controllers\ImageController::class, 'destroyAll'])->name('destroyAll')->middleware('auth');
 Route::post('/sharingImage', [App\Http\Controllers\ImageController::class, 'sharingImage'])->name('sharingImage')->middleware('auth');
+Route::get('/sharingImageImgur', [App\Http\Controllers\ImageController::class, 'sharingImageImgur'])->name('sharingImageImgur')->middleware('auth');
 Route::get('/image/{id}', [App\Http\Controllers\ImageController::class, 'showImageWithWatermark'])->name('showImageWithWatermark')->middleware('auth');
 Route::get('/watermark/{id}', [App\Http\Controllers\ImageController::class, 'addWatermark'])->name('addWatermark');
 Route::delete('/delete-watermark/{id}', [App\Http\Controllers\ImageController::class, 'destroyWatermark'])->name('destroyWatermark')->middleware('auth');

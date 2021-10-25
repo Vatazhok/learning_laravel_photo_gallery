@@ -63,6 +63,14 @@ class ImageController extends Controller
         ]);
     }
 
+    public function sharingImageImgur(Request $request)
+    {
+        $response = $this->imageService->sharingImgur($request->query('src'));
+        session()->flash('message', 'Photo upload to address: ' . $response);
+
+        return Redirect::back();
+    }
+
     public function showImageWithWatermark($id)
     {
         try {

@@ -98,10 +98,6 @@ export default {
             orderBy: orderBy
         })
 
-        const formDelete=useForm({
-            checkbox:[],
-        })
-
         return {form, formSort}
     },
 

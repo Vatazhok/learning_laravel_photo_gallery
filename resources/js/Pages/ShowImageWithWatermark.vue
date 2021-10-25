@@ -10,8 +10,8 @@
         </template>
         <template v-slot:body>
             <div class="flex md:w-1.5/12">
-                <form class="flex flex-col-reverse " @submit.prevent="submit">
-                    <div class="flex justify-around ">
+                <form class="flex flex-col-reverse" @submit.prevent="submit">
+                    <div class="flex justify-around">
                         <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
                                value="storage/images/adguard-watermark-256.png" v-model="form.radio">
                         <input type="radio" class="form-radio h-4 w-4 text-purple-600 xl:h-5 xl:w-5"
@@ -34,6 +34,7 @@
                     Add watermark
                 </button>
             </form>
+
         </template>
     </Modal>
 
@@ -51,8 +52,13 @@
                         Delete all
                     </button>
                 </form>
+                <form @submit.prevent="formSharing.get('/sharingImageImgur/?src='+images.image)">
+                    <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                        Sharing to imgur
+                    </button>
+                </form>
             </div>
-
         </template>
 
         <div class="container mx-auto">
@@ -89,14 +95,20 @@
             <div class="flex flex-wrap colo -m-4">
                 <div v-for="watermark in watermarkImage" class=" px-4 py-4 md:w-6/12 lg:w-4/12">
                     <a class=" block relative rounded overflow-hidden">
-                        <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                        <img alt="ecommerce" class="object-cover object-center w-full h-full block" id="url"
                              :src="'/'+watermark.image">
                     </a>
-                    <div class="flex mt-3">
+                    <div class="flex mt-3 space-x-3">
                         <form @submit.prevent="form.delete('/delete-watermark/'+watermark.id)">
                             <button type="submit"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
                                 Delete
+                            </button>
+                        </form>
+                        <form @submit.prevent="formSharing.get('/sharingImageImgur/?src='+watermark.image)">
+                            <button type="submit"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                                Sharing to imgur
                             </button>
                         </form>
                     </div>
@@ -104,7 +116,6 @@
             </div>
         </div>
     </BreezeAuthenticatedLayout>
-
 </template>
 
 <script>
@@ -118,7 +129,6 @@ export default {
         BreezeAuthenticatedLayout,
         Head,
         Modal
-
     },
     data() {
         return {
@@ -131,8 +141,9 @@ export default {
         const form = useForm({
             radio: null,
         })
+        const formSharing = useForm()
 
-        return {form}
+        return {form, formSharing}
     },
     methods: {
         showModal() {
@@ -141,6 +152,6 @@ export default {
         closeModal() {
             this.isModalVisible = false;
         }
-    }
+    },
 }
 </script>

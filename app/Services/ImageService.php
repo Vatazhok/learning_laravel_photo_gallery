@@ -57,6 +57,30 @@ class ImageService
         return array_merge(...$images);
     }
 
+    public function sharingImgur($src)
+    {
+        $data = file_get_contents($src);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.imgur.com/3/image',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('image' => $data),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Client-ID '. env('IMGUR_KEY_ID')
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        return json_decode($response)->data->link;
+    }
+
     public function showImage($id)
     {
         $image = $this->imageRepository->showImage($id);
